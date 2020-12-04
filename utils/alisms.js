@@ -18,7 +18,8 @@ module.exports = {
       "SignName": "Poem验证",
       "TemplateParam": "{\"code\":\""+code+"\"}"
     }
-
+    console.log('-----sendAliSms');
+    console.log(params)
     var requestOption = {
       method: 'POST'
     };
