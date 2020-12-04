@@ -14,7 +14,7 @@ module.exports = {
   sendAliSms:function(phone,code,callback){
     var params = {
       "PhoneNumbers": phone,
-      "TemplateCode": "SMS_157350536",
+      "TemplateCode": aliconf.TemplateCode,
       "SignName": "Poem验证",
       "TemplateParam": "{\"code\":\""+code+"\"}"
     }

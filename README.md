@@ -9,8 +9,9 @@
 conf/aliconfig.js
 ```
 module.exports  = {
-    accessKeyId: 'xxx',
+    accessKeyId: 'xxxxx',
     accessSecret: 'xxxxx',
+    TemplateCode:'xxxxx',
 };
 ```
 conf/appconfig.js
