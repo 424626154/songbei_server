@@ -1,0 +1,60 @@
+<% include header.html %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#menu_feedback").addClass("active");
+   })
+</script>
+      <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        <small>Version 1.0.1</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">意见反馈</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    	<!-- feedback-->
+	    <div >
+	      <%if(err){%>  
+	         <div class="alert alert-danger" role="alert">
+	          <h5><%= err %></h5>
+	        </div>
+	      <%}%>  
+
+	      <% if (objs.length) { %>  
+			  <ul class="list-group">  
+			    <% objs.forEach(function(obj){ %>  
+			      <li  class="list-group-item">
+			      	<div class="row">
+			      		<div class="col-md-10">
+			      			<h4 class="list-group-item-heading"><%= obj.feedback %></h4>
+						    <p class="list-group-item-text">
+						    	<%if(obj.userid){%> 
+						    	用户ID:<%= obj.userid %>  
+						    	<%}%>  
+						    	<%if(obj.contact){%> 
+						    	联系方式:<%= obj.contact %>
+						    	<%}%>  					    		
+						    </p>
+			      		</div>
+			      		<div class="pull-right">
+						    <!-- YYYY年MM月DD日hh:mm:ss dddd		    	 -->
+						    	<%= moment(obj.time*1000).format('YYYY年MM月DD日hh:mm') %>
+						</div>
+			      		<div class="col-md-2 ">
+			      			<a href='/admin/feedback?op=del&id=<%= obj.id %>' type="button" class="btn btn-danger pull-right">删除</a>
+			      		</div>
+			      	</div>	
+			      </li>  
+			    <% }) %>  
+			  </ul>  
+		  <% } %> 
+	    </div> 
+    	<!-- ./feedback -->
+    </section>
+    <!-- /.content -->
+<% include footer.html %>

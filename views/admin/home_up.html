@@ -1,0 +1,60 @@
+<% include header.html %>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#menu_admin_home").addClass("active");
+})
+</script>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        <small>Version 1.0.1</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/admin/home"><i class="fa fa-home"></i>首页配置</a></li>
+        <li class="active">修改</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- report-->
+    <div>
+        <%if(err){%>
+        <div class="alert alert-danger" role="alert">
+            <h5>
+                <%= err %>
+            </h5>
+        </div>
+        <%}%>
+    </div>
+    <form id="up" name="up" method="post" action="/admin/home/up" enctype="multipart/form-data" novalidate>
+        <input type="hidden" class="form-control" id="id" name="id" value="<%= obj.id %>">
+        <div class="form-group">
+            <label for="">配置页</label>
+            <textarea class="form-control" rows="15" placeholder="输入配置" id="home_config" name="home_config"><%= obj.home_config %></textarea>
+        </div>
+        <button class="btn btn-default" type="submit">修改</button>
+    </form>
+    <!-- ./report-->
+</section>
+<script>
+$(function() {
+    // console.log($("#datetime").datetimepicker)
+    var default_date = moment(<%= obj.l_time%> * 1000).format('YYYY-MM-DD hh:mm:ss')
+    console.log('default_date:'+default_date)
+    $("#datetime").datetimepicker({
+        format: 'YYYY-MM-DD hh:mm:ss',
+        locale: 'zh-cn',
+        defaultDate: default_date,
+        // minDate: new Date(),
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        }
+    });
+});
+</script>
+<!-- /.content -->
+<% include footer.html %>

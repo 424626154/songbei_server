@@ -1,0 +1,30 @@
+[
+  {
+    "id": 101,
+    "title": "景点",
+    "brief": null,
+    "logo": null,
+    "type": "scenic_spot"
+  },
+  {
+    "id": 102,
+    "title": "高校",
+    "brief": null,
+    "logo": null,
+    "type": "university"
+  },
+  {
+    "id": 103,
+    "title": "二手物品",
+    "brief": null,
+    "logo": null,
+    "type": "secondhand"
+  },
+  {
+    "id": 104,
+    "title": "婚恋交友",
+    "brief": null,
+    "logo": null,
+    "type": "dating"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "id": 101,
+    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E6%99%AF%E7%82%B9.png",
+    "title": "松北景点",
+    "type": "scenic_spot",
+    "extend": 101
+  },
+  {
+    "id": 102,
+    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E9%AB%98%E6%A0%A1.png",
+    "title": "松北高校",
+    "type": "university",
+    "extend": 102
+  },
+  {
+    "id": 103,
+    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E4%BA%8C%E6%89%8B.png",
+    "title": "二手物品",
+    "type": "secondhand",
+    "extend": null
+  },
+  {
+    "id": 104,
+    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E5%A9%9A%E6%81%8B.png",
+    "title": "婚恋交友",
+    "type": "dating",
+    "extend": null
+  }
+]

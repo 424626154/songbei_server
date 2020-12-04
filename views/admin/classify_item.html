@@ -1,0 +1,165 @@
+<% include header.html %>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#menu_admin_classify_item").addClass("active");
+})
+function onState(op,id){
+    $.ajax({
+             url:'/admin/classify/item',
+             type:'post',
+             data:{op:op,id:id},
+             dataType:'json',
+             success:function (result) {
+                 if(result.code == 0){
+                  var data = result.data;
+                  var op = data.op;
+                  var id = data.id;
+                  if(op == 'state1'){
+                    $("#menus_"+id).empty();
+                    $("#menus_"+id).append('<button class="label label-success" onclick="onState(\'state0\','+id+')">下线</button>')
+                  }else if(op == 'state0'){
+                    $("#menus_"+id).empty();
+                    $("#menus_"+id).append('<button class="label label-default" onclick="onState(\'state1\','+id+')">上线</button>')
+                    $("#menus_"+id).append('<button class="label label-success" onclick="location.href=\'/admin/classify/upitem?id='+id+'\'">修改</button>')
+                    $("#menus_"+id).append('<button class="label label-danger" onclick="onState(\'del\','+id+')">删除</button>')
+                  }else if(op == 'del'){
+                    $("#item_"+id).remove()
+                  }
+                 }else{
+                    alert(result.errmsg);
+                 }
+             },
+             error:function (msg) {
+                 alert(msg);
+             }
+         })
+}
+
+
+</script>
+<style>
+    .pages{
+      overflow:hidden; 
+      text-overflow:ellipsis;
+      display:-webkit-box; 
+      -webkit-box-orient:vertical;
+      -webkit-line-clamp:2; 
+    }
+</style>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        <small>Version 1.0.1</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">元素管理</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- report-->
+    <div>
+        <%if(err){%>
+        <div class="alert alert-danger" role="alert">
+            <h5>
+                <%= err %>
+            </h5>
+        </div>
+        <%}%>
+    </div>
+    <a class="btn btn-default" href='/admin/classify/additem'>添加元素</a>
+    <% if (objs.length) { %>
+    <ul class="list-group">
+        <% objs.forEach(function(obj){ %>
+        <a class="list-group-item" id='item_<%= obj.id %>'>
+            <div class="row">
+                <div class="col-md-12">
+                  <h5 class="list-group-item-heading">元素ID:
+                        <%= obj.id %>
+                    </h5>
+                    <h5 class="list-group-item-heading">标题:
+                        <%= obj.title %>
+                    </h5>
+                    <h5 class="list-group-item-heading">简介:
+                        <%= obj.brief %>
+                    </h5>
+
+                    <p class="list-group-item-text">
+                        分类:<%= obj.ctitle %>
+                    </p>
+
+                    <%if(obj.logo){%>
+                    <p class="list-group-item-text">
+                        <!-- 封面:<%= obj.cover %> -->
+                        <img src="<%= obj.logo %>" alt="<%= obj.logo %>" style="width: 120px">
+                    </p>
+                    <%}%>
+                     
+                    <div class="pull-right" id='menus_<%= obj.id %>'>
+                        <%if(obj.state == 0){%>
+                        <button class="label label-default" onclick="onState('state1',<%= obj.id %>)">上线</button>
+                        <button class="label label-success" onclick="location.href='/admin/classify/upitem?id=<%= obj.id %>'">修改</button>
+                        <button class="label label-danger" onclick="onState('del',<%= obj.id %>)">删除</button>
+                        <%}else{%>
+                        <button class="label label-success" onclick="onState('state0',<%= obj.id %>)">下线</button>
+                          <%if(obj.type == 'single'||obj.type == 'serial_books'){%>
+                            <%if(obj.recommend == 1){%>
+                                <button class="label label-success" onclick="onRecommend(<%= obj.id %>,0)">下推</button>
+                            <%}else{%>
+                                <button class="label label-success" onclick="onRecommend(<%= obj.id %>,1)">推荐</button>    
+                            <%}%>
+                          <%}%>
+                        <%}%>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="pull-right">
+                        <!-- YYYY年MM月DD日hh:mm:ss dddd          -->
+                        <%= moment(obj.time*1000).format('YYYY年MM月DD日hh:mm') %>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </a>
+        <% }) %>
+    </ul>
+    <% } %>
+    <!--    page:{
+                total_page_num:总页数,
+                page_size:每页长度,
+                cur_page:当前页,
+            } -->
+    <% if(page) { %>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <% if(page.cur_page > 1) { %>
+            <li>
+                <a href="/admin/classify/item?cur_page=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <% } %>
+            <% for (var i = 0; i < page.total_page_num; i++) { %>
+            <% if(i+1 == page.cur_page) { %>
+            <li class="active"><a href="/admin/classify/item?cur_page=<%= i+1 %>">
+                    <%= i+1 %></a></li>
+            <% } else  { %>
+            <li><a href="/admin/classify/item?cur_page=<%= i+1 %>">
+                    <%= i+1 %></a></li>
+            <% } %>
+            <% } %>
+            <% if(page.cur_page < page.total_page_num) { %>
+            <li>
+                <a href="/admin/classify/item?cur_page=<%= page.total_page_num %>" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <% } %>
+        </ul>
+    </nav>
+    <% } %>
+    <!-- ./report-->
+</section>
+<!-- /.content -->
+<% include footer.html %>

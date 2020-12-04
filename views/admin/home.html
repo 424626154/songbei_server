@@ -1,0 +1,145 @@
+<% include header.html %>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#menu_admin_home").addClass("active");
+    var json = '<%- JSON.stringify(obj) %>';
+    if (json != 'null') {
+        // var json = '<%- JSON.stringify(obj) %>';
+        // json = JSON.parse(json);
+        // $('#result').html(syntaxHighlight(json));
+        var result = JSON.stringify(JSON.parse(json), null, 2);
+        $('#result').html(result);
+    } else {
+        var json1 = {
+            "banner": [{
+                "id": 1001,
+                "cover": "http://wx.91niang.com/songbei/materials/bannerv1.png",
+                "title": null,
+                "brief": null,
+                "type": null,
+                "extend": null
+            }],
+            "menus": [{
+                    "id": 101,
+                    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E6%99%AF%E7%82%B9.png",
+                    "title": "松北景点",
+                    "type": "scenic_spot",
+                    "extend": 101
+                },
+                {
+                    "id": 102,
+                    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E9%AB%98%E6%A0%A1.png",
+                    "title": "松北高校",
+                    "type": "university",
+                    "extend": 102
+                },
+                {
+                    "id": 103,
+                    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E4%BA%8C%E6%89%8B.png",
+                    "title": "二手物品",
+                    "type": "secondhand",
+                    "extend": null
+                },
+                {
+                    "id": 104,
+                    "cover": "http://wx.91niang.com/songbei/%E5%88%86%E7%B1%BB/%E5%A9%9A%E6%81%8B.png",
+                    "title": "婚恋交友",
+                    "type": "dating",
+                    "extend": null
+                }
+            ]
+        }
+        $('#result1').html(JSON.stringify(json1, null, 2));
+    }
+})
+
+function syntaxHighlight(json) {
+    console.log('syntaxHighlight')
+    if (typeof json != 'string') {
+        json = JSON.stringify(json, null, 2);
+    }
+    console.log(json)
+    json = json.replace(/&/g, '&').replace(/</g, '<').replace(/>/g, '>');
+    return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+        var cls = 'number';
+        if (/^"/.test(match)) {
+            if (/:$/.test(match)) {
+                cls = 'key';
+            } else {
+                cls = 'string';
+            }
+        } else if (/true|false/.test(match)) {
+            cls = 'boolean';
+        } else if (/null/.test(match)) {
+            cls = 'null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+    });
+}
+</script>
+<style>
+pre {
+    outline: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+}
+
+.string {
+    color: green;
+}
+
+.number {
+    color: darkorange;
+}
+
+.boolean {
+    color: blue;
+}
+
+.null {
+    color: magenta;
+}
+
+.key {
+    color: red;
+}
+</style>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        <small>Version 1.0.1</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-home"></i> Home</a></li>
+        <li class="active">首页配置</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- report-->
+    <div>
+        <%if(err){%>
+        <div class="alert alert-danger" role="alert">
+            <h5>
+                <%= err %>
+            </h5>
+        </div>
+        <%}%>
+    </div>
+    <a class="btn btn-default" href='/admin/home/up'>修改配置</a>
+    <!-- ./report-->
+    <div>
+        <%if(obj){%>
+        <pre id="result">
+
+        </pre>
+        <%}else{%>
+        <h5>示例</h5>
+        <pre id="result1">
+
+        </pre>
+        <%}%>
+    </div>
+</section>
+<!-- /.content -->
+<% include footer.html %>

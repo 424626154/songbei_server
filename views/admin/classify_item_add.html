@@ -1,0 +1,142 @@
+<% include header.html %>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#menu_admin_classify").addClass("active");
+    onCType();
+})
+
+function onCType() {
+    $(function() {
+        $.ajax({
+            url: '/admin/classify/cidtype',
+            type: 'post',
+            cache: false,
+            data: {},
+            processData: false,
+            contentType: false,
+            success: function(result) {
+                if (result.code == 0) {
+                    var data = result.data;
+                    for (var i = 0; i < data.length; i++) {
+                                    console.log(data[i]);
+                        var option = "<option value='" + data[i].id + "'>" + data[i].title + "</option>";
+                        $('#ctype').append(option);
+                    }
+                    // // 缺一不可  
+                    $('#ctype').selectpicker('refresh');
+                    $('#ctype').selectpicker('render');
+                } else {
+                    alert(result.errmsg);
+                }
+            },
+            error: function(msg) {
+                alert(msg);
+            }
+        });
+    })
+}
+
+function onChange(input) {
+    console.log('onChange')
+    var reader = new FileReader();
+    var file = document.getElementById('file').files[0];
+    var preview = document.getElementById('show');
+    var logo = $("#logo");
+    console.log('logo',logo);
+    reader.addEventListener("load", function() {
+        // preview.src = reader.result;
+    }, false);
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+    var fileInput = document.getElementById("file");
+    var formData = new FormData();
+    formData.append("file", fileInput.files[0]);
+    console.log('formData', formData)
+    $.ajax({
+        url: '/admin/uploadfile',
+        type: 'post',
+        cache: false,
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(result) {
+            if (result.code == 0) {
+                var data = result.data;
+                preview.src = data.url;
+                logo.val(data.url)
+            } else {
+                alert(result.errmsg);
+            }
+        },
+        error: function(msg) {
+            alert(msg);
+        }
+    })
+}
+
+
+</script>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        <small>Version 1.0.1</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="/admin/classify"><i class="fa fa-book"></i> 元素管理</a></li>
+        <li class="active">添加</li>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
+    <!-- report-->
+    <div>
+        <%if(err){%>
+        <div class="alert alert-danger" role="alert">
+            <h5>
+                <%= err %>
+            </h5>
+        </div>
+        <%}%>
+    </div>
+    <form id="add" name="add" method="post" action="/admin/classify/additem" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="">标题</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="输入标题">
+        </div>
+        <div class="form-group">
+            <label for="">简介</label>
+            <textarea type="text" rows="5" class="form-control" id="brief" name="brief" placeholder="输入简介"></textarea>
+        </div>
+        <label for="">配图</label>
+            <input id="file" type="file" accept="image/png,image/jpg,image/gif" name="file" onchange="onChange(this)" />
+            <img src="" id="show" width="200">
+            <input type="hidden" class="form-control" id="logo" name="logo" value="">
+        <div class="form-group">
+            <label for="">分类类型</label>
+            <select class="selectpicker form-control" id="ctype" name="ctype"></select>
+        </div>
+        <button class="btn btn-default" type="submit">添加</button>
+    </form>
+    <!-- ./report-->
+</section>
+<script>
+$(function() {
+    // console.log($("#datetime").datetimepicker)
+    $("#datetime").datetimepicker({
+        format: 'YYYY-MM-DD hh:mm:ss',
+        locale: 'zh-cn',
+        minDate: new Date(),
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        }
+    });
+});
+</script>
+<!-- /.content -->
+<% include footer.html %>
