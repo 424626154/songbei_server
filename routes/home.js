@@ -7,7 +7,7 @@ var utils = require(_roomdir + 'utils/utils');
 
 var banners_json = require(_roomdir + 'json_data/home/Banners');
 var menus_json = require(_roomdir + 'json_data/home/Menus');
-var classifys = require(_roomdir + 'json_data/home/classifys');
+var classifys = require(_roomdir + 'json_data/home/Classifys');
 var items = require(_roomdir + 'json_data/home/Items');
 
 /*---db---*/

@@ -1,0 +1,26 @@
+{
+	"apps":[
+		{
+			"name":"songbei",
+			"cwd":"./",//应用程序所在的目录 根目录
+			"script":"./bin/www",//应用程序的脚本路径 程序入库
+			 "watch":[
+			 	"bin",
+				"conf",
+				"dao",
+				"public",
+				"routes",
+				"utils",
+				"view"
+			],//需要监控的目录
+			"log_date_format": "YYYY-MM-DD HH:mm Z",//日期格式
+			"error_file":"./pm2/log/err.log",//自定义应用程序的错误日志文件
+			"out_file":"./pm2/log/out.log",//自定义应用程序日志文件
+			"pid_file":"./pm2/pids/app.pid",//自定义应用程序的pid文件
+			"min_uptime": "200s",//最小运行时间，这里设置的是60s即如果应用程序在60s内退出，pm2会认为程序异常退出，此时触发重启max_restarts设置数
+	        "max_restarts": 10,//设置应用程序异常退出重启的次数，默认15次（从0开始计数
+			"merge_logs": true,
+	        "exec_interpreter": "node",
+		}
+	]
+}
