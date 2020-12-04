@@ -9,6 +9,8 @@ if(mysqldb == 'docker'){
 	dbconf = $conf.docker_mysql;
 }else if(mysqldb == 'ali'){
 	dbconf = $conf.ali_mysql;
+}else if(mysqldb == 'tencent'){
+	dbconf = $conf.tencent_mysql;
 }
 logger.info('---mysqldb:'+mysqldb);
 logger.info(dbconf)
