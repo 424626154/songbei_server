@@ -130,5 +130,15 @@ npm install xxxxxx
 4.创建数据库
 使用MySQL workbench创建数据库[songbei]
 导入数据dumps/xxxx.sql
+5.pm2启动 
+```
+pm2 start processes.json
+```
+查看日志
+```
+pm2 logs songbei
+```
+后台地址
+http://xx.xx.xx.xx:9401/admin/home
 
 

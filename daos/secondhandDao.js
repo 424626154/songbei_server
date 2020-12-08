@@ -63,5 +63,14 @@ module.exports = {
                 connection.release();
             });
         });
+    },
+    delSecondhand:function(userid,id,callback){
+        var sql = 'UPDATE '+SECONDHAND_TABLE+' SET del = 1 WHERE id = ? AND userid = ?';
+        pool.getConnection(function(err, connection) {
+            connection.query(sql, [id,userid], function(err, result) {
+                callback(err, result)
+                connection.release();
+            });
+        });
     }
 }

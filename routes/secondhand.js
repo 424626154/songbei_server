@@ -81,5 +81,24 @@ router.post('/info', function(req, res, next) {
     }
 });
 
+router.post('/del', function(req, res, next) {
+    try {
+        ru.logReq(req);
+        var body = req.body;
+        var userid = body.userid;
+        var id = body.id;
+        secondhandDao.delSecondhand(userid,id,function(err, result) {
+                if (err) {
+                    ru.resError(res, err);
+                } else {
+                    var data = body;
+                    ru.resSuccess(res, data);
+                }
+            })
+    } catch (err) {
+        ru.resError(res, err.message);
+    }
+});
+
 
 module.exports = router;
