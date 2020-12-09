@@ -21,4 +21,5 @@ module.exports = {
 	HOME_CLASSIFY_ITEM_TABLE:'home_classify_item',
 	ADMIN_FEEDBACK_TABLE:'admin_feedback',
 	REPORT_TABLE:'report',
+	BLACKLIST_TABLE:'blacklist',
 }

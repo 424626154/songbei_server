@@ -15,6 +15,7 @@ var adminUserDao = require('./adminUserDao');
 var homeDao = require('./homeDao');
 var homeClassifyDao = require('./homeClassifyDao');
 var feedbackDao = require('./feedbackDao');
+var blacklistDao = require('./blacklistDao');
 
 module.exports = {
 	userDao,
@@ -34,4 +35,5 @@ module.exports = {
 	homeDao,
 	homeClassifyDao,
 	feedbackDao,
+	blacklistDao,
 }

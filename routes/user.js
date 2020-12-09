@@ -22,6 +22,7 @@ var dbDaos = require(_roomdir + 'daos/dbDaos');
 var validateDao = dbDaos.validateDao;
 var userDao = dbDaos.userDao;
 var reportDao = dbDaos.reportDao;
+var blacklistDao = dbDaos.blacklistDao;
 
 // logger.info(deftext)
 /* GET user listing. */
@@ -747,6 +748,7 @@ router.post('/setpri', function(req, res, next) {
 
 /**
  * 举报
+ * type 2 用户 3 帖子
  */
 router.post('/report', function(req, res, next) {
     try {
@@ -771,7 +773,7 @@ router.post('/report', function(req, res, next) {
                     if (type == 1) {
                         tips = '举报成功，客服将会在确认后对其进行处理';
                     } else if (type == 2) {
-                        tips = '名言报错成功，客服将会在确认后对其进行处理'
+                        tips = '举报成功，客服将会在确认后对其进行处理'
                     } else if (type == 3) {
                         tips = '举报成功，客服将会在确认后对其进行处理'
                     }
@@ -783,4 +785,86 @@ router.post('/report', function(req, res, next) {
         ru.resError(res, err.message);
     }
 });
+
+//拉黑 
+router.post('/pullblack', function(req, res, next) {
+    try {
+        ru.logReq(req);
+        var body = req.body;
+        var userid = body.userid;
+        var buserid = body.buserid;
+        if (!userid && !buserid) {
+            ru.resError(res, '参数错误');
+        } else {
+            blacklistDao.queryBlack(userid, buserid, function(err, result) {
+                if (err) {
+                    ru.resError(res, err);
+                } else {
+                        console.log(result)
+                    if (result.length > 0) {
+                        ru.resError(res, '对方已在黑名单中！');
+                    } else {
+                        blacklistDao.addBlackList(userid, buserid, function(err, result) {
+                            if (err) {
+                                ru.resError(res, err);
+                            } else {
+                                var data = body;
+                                data.id = result.insertId;
+                                ru.resSuccess(res, data);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    } catch (err) {
+        ru.resError(res, err.message);
+    }
+});
+
+router.post('/cancelblack', function(req, res, next) {
+    try {
+        ru.logReq(req);
+        var body = req.body;
+        var userid = body.userid;
+        var buserid = body.buserid;
+        if (!userid && !buserid) {
+            ru.resError(res, '参数错误');
+        } else {
+            blacklistDao.deleteBlackList(userid, buserid, function(err, result) {
+                if (err) {
+                    ru.resError(res, err);
+                } else {
+                    var data = body;
+                    // data.id = result.insertId;
+                    ru.resSuccess(res, data);
+                }
+            });
+        }
+    } catch (err) {
+        ru.resError(res, err.message);
+    }
+});
+
+router.post('/blacklist', function(req, res, next) {
+    try {
+        ru.logReq(req);
+        var userid = req.body.userid;
+        if (!userid) {
+            ru.resError(res, '参数错误');
+        } else {
+            blacklistDao.queryBlackList(userid, function(err, result) {
+                if (err) {
+                    ru.resError(res, err);
+                } else {
+                    ru.resSuccess(res, result);
+                }
+            });
+        }
+    } catch (err) {
+        ru.resError(res, err.message);
+    }
+});
+
+
 module.exports = router;
